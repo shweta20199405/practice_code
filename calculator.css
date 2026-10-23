@@ -1,0 +1,36 @@
+#calculator
+{
+    border: 1px blue solid;
+    width: 100px;
+    flex-wrap: wrap;
+}
+
+#text-id{
+  width: 100%;                  /* Makes it responsive */
+  max-width: 400px;             /* Constrains maximum width */
+  padding: 10px 14px;           /* Inner spacing around text */
+  margin: 8px 0;                /* Outer spacing around the box */
+  
+  /* Borders and Edges */
+  border: 1px solid #ccc;       /* Subtle border */
+  border-radius: 6px;           /* Rounded corners */
+  
+  /* Typography and Colors */
+  font-size: 16px;              /* Prevents auto-zoom on iOS */
+  background-color: #ffffff;
+  color: #333333;
+  
+  
+  /* Critical for Layout Accuracy */
+  box-sizing: border-box;       /* Includes padding/border in the width calculation */
+  outline: none;                /* Removes default browser outline */
+  transition: border-color 0.2s; /* Smooth focus transition */
+
+}
+
+.button
+{
+ flex-wrap: wrap;
+ color: bisque;
+
+}
