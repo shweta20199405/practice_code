@@ -9,7 +9,20 @@ UserID
 <input type="text" id="username" name="username" placeholder="Enter your name">
    password
    <input type="text" id="password" name="password" placeholder="enter your password"> 
-   <button type="submit" class="login-btn">Sign In</button>
+   <button type="submit" class="login-btn" onclick="login()">Sign In</button>
    </form>
+   <script>
+    function login()
+    {
+    let username=document.getElementById('username').value;
+    let password=document.getElementById('password').value;
+    if(username==='Admin' && password==='secret')
+   {
+    alert('logged in successful');
+   }else 
+   alert('you entered the Wrong ID Or password')
+} 
+
+   </script>
 </body>
 </html>
