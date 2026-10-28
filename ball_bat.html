@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bat Ball game</title>
+</head>
+<body>
+    <h1>Bat Ball Game</h1>
+    <button onclick="
+    let randomnumber=Math.random()*3;
+    let computerchoice;
+    if(randomnumber>0 && randomnumber<=1)
+{
+    computerchoice='bat';
+}
+else
+if(randomnumber>1 && randomnumber<=2)
+{
+    computerchoice='ball';
+}
+else 
+if(randomnumber>2 && randomnumber<=3)
+{
+    computerchoice='stump';
+}
+document.querySelector('#result').innerText=`computerchoice is ${computerchoice} Beacuse ${randomnumber}`;
+    ">bat</button>
+    <p id="result">computerchoice is </p>
+    
+</body>
+</html>

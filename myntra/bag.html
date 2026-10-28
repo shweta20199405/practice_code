@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Bag</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Assistant, sans-serif; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 50px; box-shadow: 0 4px 12px rgba(0,0,0,.05); background: #fff; }
+        .logo { font-weight: 900; color: #ff3f6c; font-size: 24px; text-decoration: none; }
+        .container { display: flex; max-width: 1000px; margin: 40px auto; gap: 40px; padding: 0 20px; }
+        .bag-items { width: 65%; display: flex; flex-direction: column; gap: 15px; }
+        .bag-item-card { display: flex; border: 1px solid #eaeaec; padding: 15px; border-radius: 4px; position: relative; }
+        .item-img { width: 120px; height: 150px; object-fit: cover; background: #f5f5f6; }
+        .item-details { padding-left: 20px; display: flex; flex-direction: column; gap: 8px; }
+        .remove-btn { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 18px; cursor: pointer; color: #282c3f; }
+        .price-details { width: 35%; border: 1px solid #eaeaec; padding: 20px; border-radius: 4px; height: fit-content; }
+        .price-heading { font-size: 12px; font-weight: 700; color: #535766; margin-bottom: 15px; text-transform: uppercase; }
+        .price-row { display: flex; justify-content: space-between; margin: 12px 0; font-size: 14px; color: #282c3f; }
+        .total-row { border-top: 1px solid #eaeaec; padding-top: 15px; font-weight: 700; font-size: 16px; }
+        .place-order-btn { width: 100%; background: #ff3f6c; color: #fff; border: none; padding: 12px; font-weight: 700; margin-top: 20px; cursor: pointer; border-radius: 2px; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">Myntra</a>
+        <div style="font-weight:700; text-transform:uppercase; font-size:14px; letter-spacing:3px;">Checkout</div>
+    </header>
+
+    <div class="container">
+        <div class="bag-items" id="bagContainer"></div>
+        <div class="price-details" id="priceSummaryBox"></div>
+    </div>
+
+    <script>
+        let bagItems = JSON.parse(localStorage.getItem('myntraBag')) || [];
+        const bagContainer = document.getElementById('bagContainer');
+        const priceSummaryBox = document.getElementById('priceSummaryBox');
+
+        function renderBag() {
+            bagContainer.innerHTML = '';
+            if (bagItems.length === 0) {
+                bagContainer.innerHTML = `<div style="text-align:center; padding: 40px;"><h3>Your bag is empty!</h3><a href="index.html" style="color:#ff3f6c; text-decoration:none; margin-top:10px; display:inline-block;">Go back shopping</a></div>`;
+                priceSummaryBox.style.display = 'none';
+                return;
+            }
+            priceSummaryBox.style.display = 'block';
+
+            let totalMRP = 0;
+            let totalDiscount = 0;
+
+            bagItems.forEach((item, index) => {
+                totalMRP += item.originalPrice;
+                totalDiscount += (item.originalPrice - item.price);
+
+                const itemHtml = `
+                    <div class="bag-item-card">
+                        <img src="${item.image}" class="item-img">
+                        <div class="item-details">
+                            <div style="font-weight:700;">${item.brand}</div>
+                            <div style="font-size:14px; color:#535766;">${item.name}</div>
+                            <div style="font-weight:700; font-size:14px; margin-top:5px;">Rs. ${item.price} <span style="text-decoration:line-through; color:#7e818c; font-weight:400; font-size:12px;">Rs. ${item.originalPrice}</span></div>
+                        </div>
+                        <button class="remove-btn" onclick="removeFromBag(${index})">✕</button>
+                    </div>
+                `;
+                bagContainer.insertAdjacentHTML('beforeend', itemHtml);
+            });
+
+            const finalAmount = totalMRP - totalDiscount;
+            priceSummaryBox.innerHTML = `
+                <div class="price-heading">Price Details (${bagItems.length} Items)</div>
+                <div class="price-row"><span>Total MRP</span><span>Rs. ${totalMRP}</span></div>
+                <div class="price-row"><span>Discount on MRP</span><span style="color:#25c562;">-Rs. ${totalDiscount}</span></div>
+                <div class="price-row"><span>Convenience Fee</span><span style="color:#25c562;">FREE</span></div>
+                <div class="price-row total-row"><span>Total Amount</span><span>Rs. ${finalAmount}</span></div>
+                <button class="place-order-btn" onclick="alert('Order placed successfully!')">Place Order</button>
+            `;
+        }
+
+        window.removeFromBag = function(index) {
+            bagItems.splice(index, 1);
+            localStorage.setItem('myntraBag', JSON.stringify(bagItems));
+            renderBag();
+        }
+
+        document.addEventListener('DOMContentLoaded', renderBag);
+    </script>
+</body>
+</html>
